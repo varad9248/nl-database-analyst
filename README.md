@@ -3,317 +3,194 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-Agentic-blue?style=for-the-badge)]()
 [![LangChain](https://img.shields.io/badge/LangChain-FFFFFF?style=for-the-badge&logo=chainlink&logoColor=black)](https://langchain.com/)
-[![LangGraph](https://img.shields.io/badge/LangGraph-Agentic_Workflow-blue?style=for-the-badge)]()
 [![Groq](https://img.shields.io/badge/Groq-Llama--3.3--70B-orange?style=for-the-badge)]()
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)]()
+[![AWS EKS](https://img.shields.io/badge/AWS-EKS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)]()
 
-An autonomous, **self-healing AI database analyst** that translates natural language into SQL, executes queries against a PostgreSQL database, and autonomously repairs failed queries using an iterative **ReAct** reasoning loop powered by **LangGraph** and **Llama-3.3-70B**.
-
-The system continuously reasons about execution failures, analyzes PostgreSQL error messages, regenerates improved SQL, and retries until the query succeeds or a retry limit is reached.
+Autonomous AI agent that converts **Natural Language → SQL**, executes queries on **PostgreSQL**, detects execution failures, and **self-heals** by regenerating SQL using **LangGraph** and **Llama-3.3-70B**.
 
 ---
 
 ## 📸 Demo
 
-> Replace this image with your project screenshot.
-
-![NL Database Analyst](docs/hero-ui.png)
+![Demo](docs/hero-ui.PNG)
 
 ---
 
 # ✨ Features
 
-### 🤖 Autonomous Self-Healing
-
-- Detects SQL execution failures automatically.
-- Reads PostgreSQL error messages.
-- Understands the cause of failure.
-- Regenerates corrected SQL.
-- Retries execution without user intervention.
-
-Examples of handled failures:
-
-- Ambiguous columns
-- Missing aliases
-- Hallucinated table names
-- Hallucinated columns
-- Invalid joins
-- Syntax errors
+- 🤖 Natural Language → SQL
+- 🔄 Autonomous SQL self-healing
+- 🧠 LangGraph state machine
+- 🗄️ Schema-aware query generation
+- ⚡ FastAPI async backend
+- 📊 LangSmith observability
+- 🐘 PostgreSQL integration
+- ⚛️ React + Vite frontend
+- 🐳 Dockerized deployment
+- ☁️ AWS EKS ready
 
 ---
 
-### 🧠 Agentic Workflow using LangGraph
-
-The application is designed as a deterministic **state machine** instead of a single LLM call.
-
-Each node performs one responsibility:
-
-- Understand Question
-- Generate SQL
-- Execute Query
-- Detect Errors
-- Repair SQL
-- Return Results
-
-This makes the workflow:
-
-- explainable
-- observable
-- debuggable
-- production-ready
-
----
-
-### 🗄️ Schema-Aware SQL Generation
-
-Before generating SQL, the agent dynamically loads the database schema including:
-
-- Tables
-- Columns
-- Relationships
-- Primary Keys
-- Foreign Keys
-
-This dramatically reduces hallucinations and improves first-pass SQL accuracy.
-
----
-
-### 🔄 Intelligent Retry Loop
-
-Instead of immediately failing, the agent:
-
-1. Executes SQL
-2. Captures PostgreSQL exception
-3. Feeds stack trace back to the LLM
-4. Regenerates SQL
-5. Retries execution
-
-The retry loop continues until:
-
-- Success
-- Maximum retry count reached
-
----
-
-### 📊 LangSmith Observability
-
-Every agent run is fully traceable through LangSmith.
-
-Track:
-
-- Prompt history
-- Node execution
-- Token usage
-- Latency
-- Retry attempts
-- State transitions
-- Final SQL
-
-Perfect for debugging agent behavior.
-
----
-
-# 🏗️ System Architecture
-
-The workflow is implemented as a LangGraph state machine.
+# 🏗️ Architecture
 
 ```mermaid
 graph TD
 
-A[User Natural Language Query]
---> B[LangGraph State Engine]
+A[User Query]
+--> B[LangGraph]
 
 B --> C[Generate SQL]
 
-C -->|Llama-3.3-70B| D[Draft SQL]
+C --> D[Execute SQL]
 
-D --> E[Execute SQL]
+D -->|Success| E[Return Results]
 
-E -->|Success| F[Parse Results]
+D -->|Error| F[Read PostgreSQL Error]
 
-F --> G[React Data Table]
-
-E -->|PostgreSQL Error| H[Capture Exception]
-
-H --> I[Increment Retry Counter]
-
-I --> C
+F --> C
 ```
 
 ---
 
 # ⚙️ Tech Stack
 
-## AI & Agent Orchestration
-
-- LangGraph
-- LangChain
-- Groq API
-- Llama-3.3-70B-Versatile
-- LangSmith
-
----
-
-## Backend
-
-- FastAPI
-- Python 3.12+
-- asyncpg
-- PostgreSQL
-- uv Package Manager
-- Pydantic
+| Category | Technologies |
+|----------|--------------|
+| AI | LangGraph, LangChain, Groq, Llama-3.3-70B |
+| Backend | FastAPI, Python, asyncpg |
+| Frontend | React, Vite, TailwindCSS |
+| Database | PostgreSQL |
+| DevOps | Docker, Docker Compose |
+| Cloud | AWS EKS, Amazon ECR |
+| Monitoring | LangSmith |
 
 ---
 
-## Frontend
+# 🚀 Local Setup
 
-- React
-- Vite
-- TailwindCSS
-- TypeScript
-
----
-
-## Database
-
-- PostgreSQL
-- SQL
-- asyncpg
-
----
-
-## Infrastructure
-
-- Docker
-- Docker Compose
-
----
-
-# 🚀 Getting Started
-
-## 1. Clone Repository
+### Clone
 
 ```bash
-https://github.com/varad9248/nl-database-analyst.git
+git clone <repository-url>
 
 cd nl-database-analyst
 ```
 
----
+### Configure
 
-## 2. Configure Environment
-
-Create a `.env` file in the project root.
+Create a `.env`
 
 ```env
-# Groq
+GROQ_API_KEY=
 
-GROQ_API_KEY=your_groq_api_key
-
-# PostgreSQL
-
-DATABASE_URL=postgresql://postgres:password@postgres-db:5432/ecommerce
-
-# LangSmith (Optional)
+DATABASE_URL=
 
 LANGCHAIN_TRACING_V2=true
 
-LANGCHAIN_API_KEY=your_langsmith_key
+LANGCHAIN_API_KEY=
 
 LANGCHAIN_PROJECT=nl_db_analyst
 ```
 
----
-
-## 3. Launch Application
+### Run
 
 ```bash
 docker compose up -d
 ```
 
-On the first startup Docker automatically:
-
-- Creates PostgreSQL database
-- Executes `db/init.sql`
-- Builds sample ecommerce schema
-- Inserts demo data
-- Starts backend
-- Starts frontend
-
 ---
 
-# 🌐 Access the Application
+# 🌐 Endpoints
 
 | Service | URL |
-|----------|-----|
+|---------|-----|
 | Frontend | http://localhost |
-| FastAPI Docs | http://localhost:8000/docs |
-| PostgreSQL | localhost:5432 |
+| API Docs | http://localhost:8000/docs |
 
 ---
 
-# 📊 LangSmith Observability
+# ☁️ AWS Deployment
 
-The application integrates with LangSmith for complete execution tracing.
+Production deployment targets **Amazon Elastic Kubernetes Service (EKS)**.
 
-Track:
+### Workflow
 
-- Agent reasoning
-- SQL generation
-- Retry loops
-- State transitions
-- Prompt versions
-- Token usage
-- Latency
-- Final SQL
-- Errors
-
-This makes debugging autonomous agents significantly easier.
+- Build Docker images
+- Push images to Amazon ECR
+- Provision EKS cluster
+- Create Kubernetes Secrets
+- Deploy PostgreSQL
+- Deploy FastAPI backend
+- Deploy React frontend
+- Expose frontend with AWS Load Balancer
 
 ---
 
-# 📂 Project Structure
+### Kubernetes Components
+
+- 🔐 Secrets
+- 🗄️ PostgreSQL Deployment
+- ⚙️ Backend Deployment
+- 💻 Frontend Deployment
+- 🌐 Services & Load Balancer
+
+---
+
+### Cloud Architecture
 
 ```text
-nl-database-analyst/
-
-├── backend/
-│   ├── app/
-│   ├── graph/
-│   ├── agents/
-│   ├── database/
-│   └── api/
-│
-├── frontend/
-│   ├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-│
-├── db/
-│   ├── init.sql
-│   └── seed.sql
-│
-├── docker-compose.yml
-├── Dockerfile
-├── .env
-└── README.md
+                Internet
+                    │
+                    ▼
+        AWS Load Balancer (NLB)
+                    │
+                    ▼
+          React Frontend Pods
+                    │
+                    ▼
+         FastAPI Backend Pods
+                    │
+          LangGraph Workflow
+                    │
+                    ▼
+          PostgreSQL Database
 ```
 
 ---
 
+# 📈 Highlights
 
-# 📄 License
-
-Distributed under the MIT License.
-
-See the `LICENSE` file for more information.
+- Autonomous retry loop
+- Self-healing SQL generation
+- Schema-aware prompting
+- Production-ready architecture
+- Stateless backend
+- Horizontal scaling
+- Cloud-native deployment
+- Observability with LangSmith
 
 ---
 
-# ⭐ Support
+# 🔮 Roadmap
 
-If you found this project useful, consider giving it a ⭐ on GitHub.
+- Multi-database support
+- Query explanation
+- Dashboard generation
+- SQL optimization
+- Authentication
+- Saved queries
+- Streaming responses
 
-It helps others discover the project and supports future development.
+---
+
+# 📄 License
+
+MIT License.
+
+---
+
+⭐ If you found this project useful, consider starring the repository.
 ````
