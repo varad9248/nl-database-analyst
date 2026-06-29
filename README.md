@@ -1,40 +1,69 @@
-# 🧠 NL-Database Analyst
+<h1 align="center">🧠 NL-Database Analyst</h1>
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![LangGraph](https://img.shields.io/badge/LangGraph-Agentic-blue?style=for-the-badge)]()
-[![LangChain](https://img.shields.io/badge/LangChain-FFFFFF?style=for-the-badge&logo=chainlink&logoColor=black)](https://langchain.com/)
-[![Groq](https://img.shields.io/badge/Groq-Llama--3.3--70B-orange?style=for-the-badge)]()
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)]()
-[![AWS EKS](https://img.shields.io/badge/AWS-EKS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)]()
+<p align="center">
+  Autonomous AI agent that converts <strong>Natural Language → SQL</strong>, executes queries on <strong>PostgreSQL</strong>, and autonomously repairs failed queries using <strong>LangGraph</strong> and <strong>Llama-3.3-70B</strong>.
+</p>
 
-Autonomous AI agent that converts **Natural Language → SQL**, executes queries on **PostgreSQL**, detects execution failures, and **self-heals** by regenerating SQL using **LangGraph** and **Llama-3.3-70B**.
+<p align="center">
+  <a href="https://fastapi.tiangolo.com/">
+    <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI"/>
+  </a>
+
+  <a href="https://react.dev/">
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+  </a>
+
+  <a href="https://www.postgresql.org/">
+    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
+  </a>
+
+  <a href="https://langchain-ai.github.io/langgraph/">
+    <img src="https://img.shields.io/badge/LangGraph-1E1E1E?style=for-the-badge" alt="LangGraph"/>
+  </a>
+
+  <a href="https://www.langchain.com/">
+    <img src="https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge" alt="LangChain"/>
+  </a>
+
+  <a href="https://groq.com/">
+    <img src="https://img.shields.io/badge/Groq-F55036?style=for-the-badge" alt="Groq"/>
+  </a>
+
+  <a href="https://www.docker.com/">
+    <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+  </a>
+
+  <a href="https://aws.amazon.com/eks/">
+    <img src="https://img.shields.io/badge/AWS-EKS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS EKS"/>
+  </a>
+</p>
 
 ---
 
 ## 📸 Demo
 
-![Demo](docs/hero-ui.PNG)
+<p align="center">
+  <img src="docs/hero-ui.PNG" alt="Application Demo" width="90%">
+</p>
 
 ---
 
-# ✨ Features
+## ✨ Features
 
 - 🤖 Natural Language → SQL
-- 🔄 Autonomous SQL self-healing
-- 🧠 LangGraph state machine
-- 🗄️ Schema-aware query generation
-- ⚡ FastAPI async backend
-- 📊 LangSmith observability
-- 🐘 PostgreSQL integration
-- ⚛️ React + Vite frontend
-- 🐳 Dockerized deployment
-- ☁️ AWS EKS ready
+- 🔄 Autonomous SQL Self-Healing
+- 🧠 LangGraph Agent Workflow
+- 🗄️ Schema-Aware Query Generation
+- ⚡ FastAPI Async Backend
+- 📊 LangSmith Observability
+- 🐘 PostgreSQL Integration
+- ⚛️ React + Vite Frontend
+- 🐳 Dockerized Deployment
+- ☁️ AWS EKS Ready
 
 ---
 
-# 🏗️ Architecture
+## 🏗️ Architecture
 
 ```mermaid
 graph TD
@@ -48,17 +77,19 @@ C --> D[Execute SQL]
 
 D -->|Success| E[Return Results]
 
-D -->|Error| F[Read PostgreSQL Error]
+D -->|PostgreSQL Error| F[Analyze Error]
 
-F --> C
+F --> G[Regenerate SQL]
+
+G --> D
 ```
 
 ---
 
-# ⚙️ Tech Stack
+## ⚙️ Tech Stack
 
 | Category | Technologies |
-|----------|--------------|
+|-----------|--------------|
 | AI | LangGraph, LangChain, Groq, Llama-3.3-70B |
 | Backend | FastAPI, Python, asyncpg |
 | Frontend | React, Vite, TailwindCSS |
@@ -69,7 +100,7 @@ F --> C
 
 ---
 
-# 🚀 Local Setup
+## 🚀 Local Setup
 
 ### Clone
 
@@ -81,7 +112,7 @@ cd nl-database-analyst
 
 ### Configure
 
-Create a `.env`
+Create a `.env` file.
 
 ```env
 GROQ_API_KEY=
@@ -103,93 +134,87 @@ docker compose up -d
 
 ---
 
-# 🌐 Endpoints
+## 🌐 Endpoints
 
 | Service | URL |
-|---------|-----|
+|----------|-----|
 | Frontend | http://localhost |
-| API Docs | http://localhost:8000/docs |
+| FastAPI Docs | http://localhost:8000/docs |
 
 ---
 
-# ☁️ AWS Deployment
+## ☁️ AWS Deployment
 
-Production deployment targets **Amazon Elastic Kubernetes Service (EKS)**.
+Deploy to **Amazon Elastic Kubernetes Service (EKS)**.
 
-### Workflow
+### Deployment Flow
 
-- Build Docker images
-- Push images to Amazon ECR
-- Provision EKS cluster
-- Create Kubernetes Secrets
+- Build Docker Images
+- Push Images to Amazon ECR
+- Provision EKS Cluster
+- Configure Kubernetes Secrets
 - Deploy PostgreSQL
-- Deploy FastAPI backend
-- Deploy React frontend
-- Expose frontend with AWS Load Balancer
-
----
-
-### Kubernetes Components
-
-- 🔐 Secrets
-- 🗄️ PostgreSQL Deployment
-- ⚙️ Backend Deployment
-- 💻 Frontend Deployment
-- 🌐 Services & Load Balancer
+- Deploy FastAPI Backend
+- Deploy React Frontend
+- Expose with AWS Load Balancer
 
 ---
 
 ### Cloud Architecture
 
 ```text
-                Internet
-                    │
-                    ▼
-        AWS Load Balancer (NLB)
-                    │
-                    ▼
-          React Frontend Pods
-                    │
-                    ▼
-         FastAPI Backend Pods
-                    │
+                 Internet
+                     │
+                     ▼
+      AWS Network Load Balancer
+                     │
+                     ▼
+         React Frontend Pods
+                     │
+                     ▼
+        FastAPI Backend Pods
+                     │
           LangGraph Workflow
-                    │
-                    ▼
-          PostgreSQL Database
+                     │
+                     ▼
+         PostgreSQL Database
 ```
 
 ---
 
-# 📈 Highlights
+## 📈 Highlights
 
-- Autonomous retry loop
-- Self-healing SQL generation
-- Schema-aware prompting
-- Production-ready architecture
-- Stateless backend
-- Horizontal scaling
-- Cloud-native deployment
-- Observability with LangSmith
+- Autonomous Retry Loop
+- Self-Healing SQL
+- Schema-Aware Prompting
+- Production-Ready
+- Horizontal Scaling
+- Cloud Native
+- LangSmith Observability
 
 ---
 
-# 🔮 Roadmap
+## 🔮 Roadmap
 
-- Multi-database support
-- Query explanation
-- Dashboard generation
-- SQL optimization
+- Multi-Database Support
+- Query Explanation
+- SQL Optimization
+- Dashboard Generation
 - Authentication
-- Saved queries
-- Streaming responses
+- Saved Queries
+- Streaming Responses
 
 ---
 
-# 📄 License
+## 📄 License
 
 MIT License.
 
 ---
 
-⭐ If you found this project useful, consider starring the repository.
+<div align="center">
+
+⭐ **If you found this project useful, consider giving it a star!**
+
+</div>
+
