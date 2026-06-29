@@ -1,0 +1,48 @@
+# =========================
+# Root / Environment
+# =========================
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.log
+
+# =========================
+# IDEs and Editors
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Backend (Python / FastAPI / uv)
+# =========================
+backend/.venv/
+backend/venv/
+backend/env/
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+backend/.pytest_cache/
+backend/alembic.ini
+
+# =========================
+# Frontend (Node / React / Vite)
+# =========================
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.npm/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.eslintcache
+frontend/.vite/
+
+# =========================
+# Database (Docker)
+# =========================
+# Ignore local postgres data if you ever map it locally outside Docker
+pgdata/
